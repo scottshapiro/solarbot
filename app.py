@@ -1,4 +1,4 @@
-import os
+port os
 import sys
 import json
 
@@ -40,7 +40,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    send_message(sender_id, solar())
+                    send_message(sender_id, "Solar Report:" + solar())
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
