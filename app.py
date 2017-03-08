@@ -16,6 +16,7 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
+    solar()
 
     return "Hello world", 200
 
@@ -51,6 +52,13 @@ def webhook():
                     pass
 
     return "ok", 200
+
+def solar():
+    url = 'https://api.enphaseenergy.com/api/v2/systems/?key=3fbdaa7269e667f13a87d33c2b8d5e09&user_id=4f4449314e6a63350a'
+    payload = json.load(open("request.json"))
+    headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
+    log (r.getvalue())
 
 
 def send_message(recipient_id, message_text):
