@@ -4,6 +4,7 @@ import json
 
 import requests
 from flask import Flask, request
+from solar import solar
 
 app = Flask(__name__)
 
@@ -16,7 +17,6 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
-    solar()
 
     return "Hello world", 200
 
@@ -40,7 +40,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    send_message(sender_id, "got it, thanks! woooooohooooo.")
+                    send_message(sender_id, solar())
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -52,14 +52,6 @@ def webhook():
                     pass
 
     return "ok", 200
-
-def solar():
-    url = 'https://api.enphaseenergy.com/api/v2/systems/?key=3fbdaa7269e667f13a87d33c2b8d5e09&user_id=4f4449314e6a63350a'
-    payload = json.load(open("request.json"))
-    headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-    r = requests.post(url, data=json.dumps(payload), headers=headers)
-    log (r.getvalue())
-
 
 def send_message(recipient_id, message_text):
 
