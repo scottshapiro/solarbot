@@ -18,7 +18,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return "Hello world", 200
+    return solar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"]), 200
 
 
 @app.route('/', methods=['POST'])
