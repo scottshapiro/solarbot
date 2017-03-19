@@ -62,7 +62,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 		    job = q.enqueue(solar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
 
-                    send_message(sender_id, "Solar Report:" + job.result)
+                    send_message(sender_id, "Solar Report:" + str(job.result))
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
