@@ -27,7 +27,7 @@ def setsolar(key,user_id,system_id):
         print 'No kittez. Got an error code:', e
 
 def getsolar(key,user_id,system_id):
-        message = str(r.hget(user_id,'energy_today')) + "Wh were produced today.\n" + str(r.hget(user_id,'current_power')) + "W this moment."
+        message = str(r.hget(user_id,'energy_today')) + "Wh were produced today. " + str(r.hget(user_id,'current_power')) + "W this moment."
         return message
 
 
@@ -64,10 +64,11 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 		    r.hset(os.environ["ENPHASE_USER_ID"],'recipient_id',recipient_id)
 
-                    job = q.enqueue(setsolar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
+                    job = q.enqueue(setsolar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]) #set solar data in redis
+
 		    log(job)
 
- 		    report = getsolar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
+ 		    report = getsolar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]) #pull solar data from redis
 
                     send_message(sender_id, "Solar Report:" + report)
 
