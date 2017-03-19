@@ -1,6 +1,8 @@
 from urllib2 import Request, urlopen, URLError
 import os
+import redis
 import json
+
 
 def solar(key,user_id):
 
