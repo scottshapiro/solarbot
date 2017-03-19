@@ -1,12 +1,29 @@
 import os
 import sys
 import json
+import redis
+from urllib2 import Request, urlopen, URLError
 
 import requests
 from flask import Flask, request
-from solar import solar
 
 app = Flask(__name__)
+
+
+def solar(key,user_id,system_id):
+    try:
+        r = redis.from_url(os.environ.get("REDIS_URL"))
+        request = Request('https://api.enphaseenergy.com/api/v2/systems/'+system_id+'/summary?key='+key+'&user_id='+user_id)
+        response = urlopen(request)
+        solar = json.loads(response.read())
+	r.hset(user_id,'energy_today',solar['energy_today'])
+	r.hset(user_id,'current_power',solar['current_power'])
+	log(r.hgetall(user_id))
+        message = str(r.hget(user_id,'energy_today')) + "Wh were produced today.\n" + str(r.hget(user_id,'current_power')) + "W this moment."
+        return message
+    except URLError, e:
+        print 'No kittez. Got an error code:', e
+
 
 
 @app.route('/', methods=['GET'])
@@ -18,7 +35,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return solar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"]), 200
+    return solar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]), 200
 
 
 @app.route('/', methods=['POST'])
