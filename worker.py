@@ -10,6 +10,6 @@ conn = redis.from_url(redis_url)
 
 if __name__ == '__main__':
     with Connection(conn):
-	print 'doing work'
+	print 'starting worker'
         worker = Worker(map(Queue, listen))
         worker.work()
