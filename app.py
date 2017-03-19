@@ -24,7 +24,6 @@ def solar(key,user_id,system_id):
         solar = json.loads(response.read())
 	r.hset(user_id,'energy_today',solar['energy_today'])
 	r.hset(user_id,'current_power',solar['current_power'])
-	log(r.hgetall(user_id))
         message = str(r.hget(user_id,'energy_today')) + "Wh were produced today.\n" + str(r.hget(user_id,'current_power')) + "W this moment."
         return message
     except URLError, e:
@@ -61,9 +60,9 @@ def webhook():
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    message_text = q.enqueue(solar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]))
+		    job = q.enqueue(solar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
 
-                    send_message(sender_id, "Solar Report:" + message_text)
+                    send_message(sender_id, "Solar Report:" + job.result)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
