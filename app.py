@@ -63,7 +63,7 @@ def webhook():
 
                     job = q.enqueue(setsolar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
 		    log(job)
-		    log(job.results)
+
  		    report = getsolar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
 
                     send_message(sender_id, "Solar Report:" + report)
