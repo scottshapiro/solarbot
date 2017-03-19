@@ -7,7 +7,13 @@ from urllib2 import Request, urlopen, URLError
 import requests
 from flask import Flask, request
 
+from rq import Queue
+from worker import conn
+
 app = Flask(__name__)
+
+
+q = Queue(connection=conn)
 
 
 def solar(key,user_id,system_id):
@@ -57,7 +63,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     # message_text = messaging_event["message"]["text"]  # the message's text
 
-                    send_message(sender_id, "Solar Report:" + solar())
+                    send_message(sender_id, "Solar Report:" + q.enqueue(solar()))
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
