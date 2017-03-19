@@ -41,7 +41,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return solar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]), 200
+    return 'verified', 200
 
 
 @app.route('/', methods=['POST'])
@@ -63,7 +63,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     # message_text = messaging_event["message"]["text"]  # the message's text
 
-                    send_message(sender_id, "Solar Report:" + q.enqueue(solar()))
+                    send_message(sender_id, "Solar Report:" + q.enqueue(solar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])))
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
