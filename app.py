@@ -59,7 +59,10 @@ def webhook():
                 if messaging_event.get("message"):  # someone sent us a message
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+		    r.hset(user_id,'sender_id',sender_id)
+
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+		    r.hset(user_id,'recipient_id',recipient_id)
 
                     job = q.enqueue(setsolar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"])
 		    log(job)
