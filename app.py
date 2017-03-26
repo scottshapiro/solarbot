@@ -70,7 +70,7 @@ def webhook():
 
  		    report = getsolar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]) #pull solar data from redis
 
-                    send_message(sender_id, "Solar Report:" + report)
+                    send_message(sender_id, "Instand report: " + report)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
