@@ -64,9 +64,9 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 		    r.hset(os.environ["ENPHASE_USER_ID"],'recipient_id',recipient_id)
 
-                    job = q.enqueue(setsolar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]) #set solar data in redis
+                    # job = q.enqueue(setsolar,os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]) #set solar data in redis
 
-		    log(job)
+		    #log(job)
 
  		    report = getsolar(os.environ["ENPHASE_KEY"],os.environ["ENPHASE_USER_ID"],os.environ["ENPHASE_SYSTEM_ID"]) #pull solar data from redis
 
