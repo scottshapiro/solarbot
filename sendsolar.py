@@ -1,7 +1,7 @@
 from app import send_message, getsolar, setsolar
 import os
-from rq import Queue
-from worker import conn
+# from rq import Queue
+# from worker import conn
 import redis
 
 r = redis.from_url(os.environ.get("REDIS_URL"))
