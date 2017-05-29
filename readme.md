@@ -12,4 +12,5 @@ Python on Heroku, using Redis, Schedule, and Redis to go packages
 ### Who
 Scott Shapiro (www.scottshapiro.com) 
 
-Credit: https://blog.hartleybrody.com/fb-messenger-bot/ and https://github.com/dzimmanck/enphase-echo
+### Credit
+https://blog.hartleybrody.com/fb-messenger-bot/ and https://github.com/dzimmanck/enphase-echo
