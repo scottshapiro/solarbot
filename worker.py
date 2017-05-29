@@ -4,9 +4,9 @@ from rq import Worker, Queue, Connection
 
 listen = ['high', 'default', 'low']
 
-redis_url = os.getenv('REDISTOGO_URL', 'redis://redistogo:cdc98dc1d537aa1bbb8df876e45836f9@koi.redistogo.com:11883/')
+# redis_url = os.getenv('REDISTOGO_URL', os.environ["REDISTOGO_URL"])
 
-conn = redis.from_url(redis_url)
+conn = redis.from_url(os.environ["REDISTOGO_URL"])
 
 if __name__ == '__main__':
     with Connection(conn):
