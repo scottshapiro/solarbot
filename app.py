@@ -8,12 +8,12 @@ import requests
 from flask import Flask, request
 
 from rq import Queue
-from worker import conn
+# from worker import conn
 
 app = Flask(__name__)
 
 
-q = Queue(connection=conn)
+# q = Queue(connection=conn)
 r = redis.from_url(os.environ.get("REDIS_URL"))
 
 def setsolar(key,user_id,system_id):
