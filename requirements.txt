@@ -13,7 +13,7 @@ requests==2.20.0
 rq==0.7.1
 six==1.10.0
 stevedore==1.20.0
-urllib3==1.23
+urllib3==1.26.5
 virtualenv==15.1.0
 virtualenvwrapper==4.7.2
 Werkzeug==0.11.10
